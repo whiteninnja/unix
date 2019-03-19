@@ -1,0 +1,25 @@
+1. Protoze posun se vzdy vykona relativne k jiz upravenemu vstupu, nikoliv
+vzhledem ke vstupu puvodnimu, tedy prvni shift zahodi a (zbyva b c d e), druhy
+shift o 2 zahodi b c (zbyva d e). A posledni shift o 3 by vyhodil i prvky,
+ktere tam nejsou, tedy se neprovede a vypise d e;
+
+2.s prikazem echo nasledujici vypisi
+  * Promenna $# ... pocet argumentu na vstupu
+  * ${# promenna}... pocet charu promenne
+  * ${!premenna}...kdyz je promenna cislo vypise argument na pozici promenne
+  * ${promenna:-vyraz}...pokud  promenna neni definovna ulozi se do ni vyraz
+  * ${premenna:cislo}... vymaze z promenne prvnich n(n=cislo) charu
+  * ${premenna:cislo:cislo2}.. vymaze z promenne prvnich n (n=cislo) charu 
+                              a necha k(k=cislo2) charu zbytek smaze (nevypise)
+  * ${premenna/vyraz/text}...v dane promenne nahradi 1. vyskyt  vyrazu textem 
+  * ${premenna//vyraz/text}...v dne promenne nahradi vsechny vyskyty vyrazu
+   				textem
+Muzeme vsude pouzit @ jako v f8 f7?
+ -f1 ano, echo $@ vypise vsechny promenne
+ -f2 ano, vypise pocet vsech promenych
+ -f3 to nejde {!@} neni platna operace
+ -f4 ano ${@:-abc} pri zadani alespon 1 parametru vypise vsechny parametry,
+	 jinak vypise -abc
+ -f5 no, ne tak uplne ${@:n} vypise vsechny argumenty od n-te pozice(vcetne)
+ -f6 zase, dela neco trochu jineho, ${@:n:k} vypise k argumentu od n-te pozice
+  (vcetne)
