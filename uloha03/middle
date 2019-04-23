@@ -1,0 +1,44 @@
+#!/bin/sh
+
+FILE=$(mktemp /tmp/help.XXXXXX)
+S=$#
+if [ $# -eq 4 ] || [ -f "$3" ]; then
+  cat $S > $FILE
+else
+  cat - > $FILE
+fi
+K=$( cat $FILE | wc -l )
+case $1 in
+        -l | --lines )
+                M=$( echo -n $2 | cut -d '-' -f 1 )
+                N=$( echo -n $2 | cut -d '-' -f 2 ) 
+        ;;
+        -f | --fraction )
+                A=$( echo -n $2 | cut -d '/' -f 1 )
+                B=$( echo -n $2 | cut -d '/' -f 2 )
+                C=$( echo -n $3 | cut -d '/' -f 1 )
+                D=$( echo -n $3 | cut -d '/' -f 2 )
+                M=$(( $K*$A/$B ))
+                I=$(($K*$C+$D-1))
+                N=$(($I/$D))
+        ;;
+        -p | --part )
+
+                A=$( echo -n $2 | cut -d '/' -f 1 )
+                B=$( echo -n $2 | cut -d '/' -f 2 )
+ 		I=$((($K+$B-1)/$B))
+                M=$((($A-1)*$I+1))
+                N=$(($I*$A))
+        ;;
+esac
+ if test $N -ge $M; then
+                    if test $N -ge $K; then
+                       N=$K
+                    fi
+                    L=$(( $N-$M +1))
+                    cat $FILE | head -n $N | tail -n $L
+                else
+                    exit 1
+                fi
+rm "$FILE"
+
