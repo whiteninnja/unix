@@ -3,15 +3,16 @@
 FILE=$(mktemp /tmp/help.XXXXXX)
 cat - > $FILE
 K=$( cat $FILE | wc -l )
+
 if [ $# -eq 2 ]; then
   if [ "$1" == "-n" ]; then
     A=$2
   else
     exit 1
   fi
-elif [ $# -eq 0 ]; then 
+elif [ $# -eq 0 ]; then
   A=1
-else 
+else
   exit 1
 fi
 H=$(($K % $A ))
@@ -19,7 +20,10 @@ for (( i = $A; i <= $K ; i=i+A))
 do
     cat $FILE | tail -n $i | head -n $A
 done
+T=$(($K-$H))
 if [ $H -ne 0 ]; then
-   cat $FILE | tail -n $K  | head -n $H
+   for (( i = $T+1; i <=$K ; i++))
+    do
+      cat $FILE | tail -n $i | head -n 1
+    done
 fi
-rm "$FILE"
